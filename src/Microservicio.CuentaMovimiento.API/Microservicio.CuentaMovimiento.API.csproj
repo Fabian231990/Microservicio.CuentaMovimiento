@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Microservicio.CuentaMovimiento.Infraestructura\Microservicio.CuentaMovimiento.Infraestructura.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

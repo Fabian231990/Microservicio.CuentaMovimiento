@@ -14,11 +14,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Microservicio.CuentaMovimiento.Dominio\Microservicio.CuentaMovimiento.Dominio.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Utilitarios\" />
-    <Folder Include="Repositorios\" />
-  </ItemGroup>
 
 </Project>
