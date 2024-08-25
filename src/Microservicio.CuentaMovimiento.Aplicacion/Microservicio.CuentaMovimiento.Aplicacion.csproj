@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microservicio.CuentaMovimiento.Aplicacion\Microservicio.CuentaMovimiento.Aplicacion.csproj" />
     <ProjectReference Include="..\Microservicio.CuentaMovimiento.Dominio\Microservicio.CuentaMovimiento.Dominio.csproj" />
+    <ProjectReference Include="..\Microservicio.CuentaMovimiento.Infraestructura\Microservicio.CuentaMovimiento.Infraestructura.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Servicios\" />
   </ItemGroup>
 
 </Project>

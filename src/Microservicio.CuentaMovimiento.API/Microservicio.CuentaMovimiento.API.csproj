@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>1d044bde-a689-4f22-b9e0-44b2e3070018</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Microservicio.CuentaMovimiento.Aplicacion\Microservicio.CuentaMovimiento.Aplicacion.csproj" />
     <ProjectReference Include="..\Microservicio.CuentaMovimiento.Dominio\Microservicio.CuentaMovimiento.Dominio.csproj" />
+    <ProjectReference Include="..\Microservicio.CuentaMovimiento.Infraestructura\Microservicio.CuentaMovimiento.Infraestructura.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
