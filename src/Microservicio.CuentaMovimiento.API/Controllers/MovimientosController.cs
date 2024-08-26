@@ -2,8 +2,6 @@
 using Microservicio.CuentaMovimiento.Dominio.Dto;
 using Microservicio.CuentaMovimiento.Infraestructura.Utilitarios;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Microservicio.CuentaMovimiento.API.Controllers
 {

@@ -54,14 +54,24 @@ namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
                     return Respuesta<MovimientoDto>.CrearRespuestaFallida(404, "Cuenta no encontrada.");
                 }
 
-                // Verificar que el saldo sea suficiente si el movimiento es negativo (retiro)
-                if (movimientoDto.Valor < 0 && cuenta.SaldoInicial + movimientoDto.Valor < 0)
+                // Validar el tipo de movimiento y actualizar el saldo de la cuenta
+                if (movimientoDto.TipoMovimiento == "Deposito")
                 {
-                    return Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Saldo no disponible.");
+                    cuenta.SaldoInicial += movimientoDto.Valor;
                 }
-
-                // Actualizar el saldo de la cuenta
-                cuenta.SaldoInicial += movimientoDto.Valor;
+                else if (movimientoDto.TipoMovimiento == "Retiro")
+                {
+                    // Verificar que el saldo sea suficiente si el movimiento es un retiro
+                    if (cuenta.SaldoInicial < movimientoDto.Valor)
+                    {
+                        return Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Saldo no disponible.");
+                    }
+                    cuenta.SaldoInicial -= movimientoDto.Valor;
+                }
+                else
+                {
+                    return Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Tipo de movimiento no valido.");
+                }
 
                 // Registrar el movimiento en la base de datos
                 var nuevoMovimiento = new MovimientoDto

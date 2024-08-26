@@ -8,7 +8,7 @@ namespace Microservicio.CuentaMovimiento.API.Controllers
     /// </summary>
     /// <param name="movimientoServicio">Servicio de movimientos.</param>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ReportesController(IMovimientoServicio movimientoServicio) : ControllerBase
     {
         /// <summary>
