@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>1d044bde-a689-4f22-b9e0-44b2e3070018</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microservicio.CuentaMovimiento.Aplicacion\Microservicio.CuentaMovimiento.Aplicacion.csproj" />
+    <ProjectReference Include="..\Microservicio.CuentaMovimiento.Dominio\Microservicio.CuentaMovimiento.Dominio.csproj" />
+    <ProjectReference Include="..\Microservicio.CuentaMovimiento.Infraestructura\Microservicio.CuentaMovimiento.Infraestructura.csproj" />
+  </ItemGroup>
+
+</Project>

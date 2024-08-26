@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microservicio.CuentaMovimiento.Dominio\Microservicio.CuentaMovimiento.Dominio.csproj" />
+    <ProjectReference Include="..\Microservicio.CuentaMovimiento.Infraestructura\Microservicio.CuentaMovimiento.Infraestructura.csproj" />
+  </ItemGroup>
+
+</Project>
