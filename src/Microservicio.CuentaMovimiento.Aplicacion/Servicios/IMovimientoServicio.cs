@@ -4,7 +4,7 @@ using Microservicio.CuentaMovimiento.Infraestructura.Utilitarios;
 namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
 {
     /// <summary>
-    /// Interfaz que define los métodos para manejar la lógica de negocio relacionada con los movimientos.
+    /// Interfaz que define los metodos para manejar la logica de negocio relacionada con los movimientos.
     /// </summary>
     public interface IMovimientoServicio
     {
@@ -18,7 +18,7 @@ namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
         /// <summary>
         /// Genera un reporte de estado de cuenta detallado para un cliente en un rango de fechas.
         /// </summary>
-        /// <param name="identificacion">Identificación del cliente.</param>
+        /// <param name="identificacion">Identificacion del cliente.</param>
         /// <param name="fechaInicio">Fecha de inicio del rango.</param>
         /// <param name="fechaFin">Fecha de fin del rango.</param>
         /// <returns>Un reporte detallado de estado de cuenta.</returns>

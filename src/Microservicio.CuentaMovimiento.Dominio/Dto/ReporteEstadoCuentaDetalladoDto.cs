@@ -6,7 +6,7 @@
     public class ReporteEstadoCuentaDetalladoDto
     {
         /// <summary>
-        /// Fecha en que se realizó el movimiento.
+        /// Fecha en que se realizo el movimiento.
         /// </summary>
         public DateTime Fecha { get; set; }
 
@@ -16,7 +16,7 @@
         public string Cliente { get; set; }
 
         /// <summary>
-        /// Número de cuenta único asociado a la cuenta bancaria.
+        /// Numero de cuenta unico asociado a la cuenta bancaria.
         /// </summary>
         public string NumeroCuenta { get; set; }
 
@@ -31,7 +31,7 @@
         public decimal SaldoInicial { get; set; }
 
         /// <summary>
-        /// Estado de la cuenta, indicando si está activa o inactiva.
+        /// Estado de la cuenta, indicando si esta activa o inactiva.
         /// </summary>
         public bool Estado { get; set; }
 
@@ -41,7 +41,7 @@
         public decimal Movimiento { get; set; }
 
         /// <summary>
-        /// Saldo disponible en la cuenta después del movimiento.
+        /// Saldo disponible en la cuenta despues del movimiento.
         /// </summary>
         public decimal SaldoDisponible { get; set; }
     }

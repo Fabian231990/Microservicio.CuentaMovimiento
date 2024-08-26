@@ -19,7 +19,7 @@ namespace Microservicio.CuentaMovimiento.API.Controllers
         /// <summary>
         /// Genera un reporte detallado de estado de cuenta para un cliente en un rango de fechas.
         /// </summary>
-        /// <param name="identificacion">Identificación del cliente.</param>
+        /// <param name="identificacion">Identificacion del cliente.</param>
         /// <param name="fechaInicio">Fecha de inicio del rango.</param>
         /// <param name="fechaFin">Fecha de fin del rango.</param>
         /// <returns>Reporte detallado de estado de cuenta en formato JSON.</returns>

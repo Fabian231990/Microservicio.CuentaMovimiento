@@ -49,10 +49,10 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Repositorios
         Task<int> ContarCuentasPorIdentificacionAsync(string identificacion);
 
         /// <summary>
-        /// Obtiene todas las cuentas asociadas a un cliente por su identificación.
+        /// Obtiene todas las cuentas asociadas a un cliente por su identificacion.
         /// </summary>
-        /// <param name="identificacion">Identificación del cliente.</param>
-        /// <returns>Listado de cuentas asociadas a la identificación del cliente.</returns>
+        /// <param name="identificacion">Identificacion del cliente.</param>
+        /// <returns>Listado de cuentas asociadas a la identificacion del cliente.</returns>
         Task<IEnumerable<CuentaDto>> ObtenerCuentasPorIdentificacionAsync(string identificacion);
     }
 }

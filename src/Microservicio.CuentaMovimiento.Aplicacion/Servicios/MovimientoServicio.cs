@@ -6,7 +6,7 @@ using Microservicio.CuentaMovimiento.Infraestructura.Utilitarios;
 namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
 {
     /// <summary>
-    /// Servicio que maneja la lógica de negocio para la entidad Movimiento.
+    /// Servicio que maneja la logica de negocio para la entidad Movimiento.
     /// </summary>
     /// <remarks>
     /// Constructor del servicio de movimientos.
@@ -33,7 +33,7 @@ namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
         private readonly IClienteServicio _clienteServicio = clienteServicio;
 
         /// <summary>
-        /// Registra un nuevo movimiento en una cuenta, actualizando el saldo disponible y registrando la transacción.
+        /// Registra un nuevo movimiento en una cuenta, actualizando el saldo disponible y registrando la transaccion.
         /// </summary>
         /// <param name="movimientoDto">DTO del movimiento a registrar.</param>
         /// <returns>Respuesta con el movimiento registrado o un mensaje de error si no se puede realizar el movimiento.</returns>
@@ -41,13 +41,13 @@ namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
         {
             try
             {
-                // Validar que los datos básicos del movimiento sean correctos
+                // Validar que los datos basicos del movimiento sean correctos
                 if (movimientoDto == null || string.IsNullOrEmpty(movimientoDto.NumeroCuenta))
                 {
-                    return Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Los datos del movimiento no son válidos.");
+                    return Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Los datos del movimiento no son validos.");
                 }
 
-                // Obtener la cuenta asociada al número de cuenta
+                // Obtener la cuenta asociada al numero de cuenta
                 var cuenta = await _cuentaRepositorio.ObtenerPorNumeroCuentaAsync(movimientoDto.NumeroCuenta);
                 if (cuenta == null)
                 {
@@ -89,7 +89,7 @@ namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
         /// <summary>
         /// Genera un reporte de estado de cuenta detallado para un cliente en un rango de fechas.
         /// </summary>
-        /// <param name="identificacion">Identificación del cliente.</param>
+        /// <param name="identificacion">Identificacion del cliente.</param>
         /// <param name="fechaInicio">Fecha de inicio del rango.</param>
         /// <param name="fechaFin">Fecha de fin del rango.</param>
         /// <returns>Un reporte detallado de estado de cuenta.</returns>

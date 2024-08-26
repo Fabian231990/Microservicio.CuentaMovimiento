@@ -33,7 +33,7 @@ namespace Microservicio.CuentaMovimiento.API.Controllers
         {
             if (movimientoDto == null)
             {
-                return BadRequest(Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Los datos del movimiento no son válidos."));
+                return BadRequest(Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Los datos del movimiento no son validos."));
             }
 
             var respuesta = await _movimientoServicio.RegistrarMovimientoAsync(movimientoDto);

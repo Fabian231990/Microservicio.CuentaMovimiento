@@ -153,10 +153,10 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Repositorios
         }
 
         /// <summary>
-        /// Obtiene todas las cuentas asociadas a un cliente por su identificación.
+        /// Obtiene todas las cuentas asociadas a un cliente por su identificacion.
         /// </summary>
-        /// <param name="identificacion">Identificación del cliente.</param>
-        /// <returns>Listado de cuentas asociadas a la identificación del cliente.</returns>
+        /// <param name="identificacion">Identificacion del cliente.</param>
+        /// <returns>Listado de cuentas asociadas a la identificacion del cliente.</returns>
         public async Task<IEnumerable<CuentaDto>> ObtenerCuentasPorIdentificacionAsync(string identificacion)
         {
             var cuentas = await _dbContext.Cuenta

@@ -12,7 +12,7 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Servicios
     /// Constructor que inyecta el HttpClient.
     /// </remarks>
     /// <param name="httpClient">Instancia de HttpClient inyectada.</param>
-    /// <param name="configuration">Configuración de la aplicación.</param>
+    /// <param name="configuration">Configuracion de la aplicacion.</param>
     public class ClienteServicio(HttpClient httpClient, IConfiguration configuration) : IClienteServicio
     {
         /// <summary>
@@ -21,7 +21,7 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Servicios
         private readonly HttpClient _httpClient = httpClient;
 
         /// <summary>
-        /// Configuración de la aplicación.
+        /// Configuracion de la aplicacion.
         /// </summary>
         private readonly IConfiguration _configuration = configuration;
 
@@ -59,7 +59,7 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Servicios
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción que ocurra durante el proceso
+                // Manejar cualquier excepcion que ocurra durante el proceso
                 return Respuesta<ClienteDto>.CrearRespuestaFallida(500, $"Error inesperado: {ex.Message}");
             }
         }
