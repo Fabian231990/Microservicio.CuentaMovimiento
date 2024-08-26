@@ -39,44 +39,51 @@ namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
         /// <returns>Respuesta con el movimiento registrado o un mensaje de error si no se puede realizar el movimiento.</returns>
         public async Task<Respuesta<MovimientoDto>> RegistrarMovimientoAsync(MovimientoDto movimientoDto)
         {
-            // Validar que los datos básicos del movimiento sean correctos
-            if (movimientoDto == null || string.IsNullOrEmpty(movimientoDto.NumeroCuenta))
+            try
             {
-                return Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Los datos del movimiento no son válidos.");
+                // Validar que los datos básicos del movimiento sean correctos
+                if (movimientoDto == null || string.IsNullOrEmpty(movimientoDto.NumeroCuenta))
+                {
+                    return Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Los datos del movimiento no son válidos.");
+                }
+
+                // Obtener la cuenta asociada al número de cuenta
+                var cuenta = await _cuentaRepositorio.ObtenerPorNumeroCuentaAsync(movimientoDto.NumeroCuenta);
+                if (cuenta == null)
+                {
+                    return Respuesta<MovimientoDto>.CrearRespuestaFallida(404, "Cuenta no encontrada.");
+                }
+
+                // Verificar que el saldo sea suficiente si el movimiento es negativo (retiro)
+                if (movimientoDto.Valor < 0 && cuenta.SaldoInicial + movimientoDto.Valor < 0)
+                {
+                    return Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Saldo no disponible.");
+                }
+
+                // Actualizar el saldo de la cuenta
+                cuenta.SaldoInicial += movimientoDto.Valor;
+
+                // Registrar el movimiento en la base de datos
+                var nuevoMovimiento = new MovimientoDto
+                {
+                    Fecha = DateTime.Now,
+                    TipoMovimiento = movimientoDto.TipoMovimiento,
+                    Valor = movimientoDto.Valor,
+                    Saldo = cuenta.SaldoInicial,
+                    NumeroCuenta = movimientoDto.NumeroCuenta,
+                    IdCuenta = cuenta.IdCuenta
+                };
+
+                await _movimientoRepositorio.GuardarMovimientoAsync(nuevoMovimiento);
+                await _cuentaRepositorio.ModificarAsync(cuenta);
+
+                // Retornar el movimiento registrado
+                return Respuesta<MovimientoDto>.CrearRespuestaExitosa(nuevoMovimiento);
             }
-
-            // Obtener la cuenta asociada al número de cuenta
-            var cuenta = await _cuentaRepositorio.ObtenerPorNumeroCuentaAsync(movimientoDto.NumeroCuenta);
-            if (cuenta == null)
+            catch (Exception ex)
             {
-                return Respuesta<MovimientoDto>.CrearRespuestaFallida(404, "Cuenta no encontrada.");
+                return Respuesta<MovimientoDto>.CrearRespuestaFallida(500, $"Error inesperado: {ex.Message}");
             }
-
-            // Verificar que el saldo sea suficiente si el movimiento es negativo (retiro)
-            if (movimientoDto.Valor < 0 && cuenta.SaldoInicial + movimientoDto.Valor < 0)
-            {
-                return Respuesta<MovimientoDto>.CrearRespuestaFallida(400, "Saldo no disponible.");
-            }
-
-            // Actualizar el saldo de la cuenta
-            cuenta.SaldoInicial += movimientoDto.Valor;
-
-            // Registrar el movimiento en la base de datos
-            var nuevoMovimiento = new MovimientoDto
-            {
-                Fecha = DateTime.Now,
-                TipoMovimiento = movimientoDto.TipoMovimiento,
-                Valor = movimientoDto.Valor,
-                Saldo = cuenta.SaldoInicial,
-                NumeroCuenta = movimientoDto.NumeroCuenta,
-                IdCuenta = cuenta.IdCuenta
-            };
-
-            await _movimientoRepositorio.GuardarMovimientoAsync(nuevoMovimiento);
-            await _cuentaRepositorio.ModificarAsync(cuenta);
-
-            // Retornar el movimiento registrado
-            return Respuesta<MovimientoDto>.CrearRespuestaExitosa(nuevoMovimiento);
         }
 
         /// <summary>
@@ -88,51 +95,58 @@ namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
         /// <returns>Un reporte detallado de estado de cuenta.</returns>
         public async Task<Respuesta<IEnumerable<ReporteEstadoCuentaDetalladoDto>>> GenerarReporteEstadoCuentaAsync(string identificacion, DateTime fechaInicio, DateTime fechaFin)
         {
-            // Verificar si el cliente existe
-            var clienteRespuesta = await _clienteServicio.ObtenerClientePorIdentificacionAsync(identificacion);
-            if (!clienteRespuesta.EsExitoso)
+            try
             {
-                return Respuesta<IEnumerable<ReporteEstadoCuentaDetalladoDto>>.CrearRespuestaFallida(404, "Cliente no encontrado.");
-            }
-
-            var cliente = clienteRespuesta.Datos;
-
-            // Obtener las cuentas asociadas al cliente
-            var cuentasRespuesta = await _cuentaRepositorio.ObtenerCuentasPorIdentificacionAsync(identificacion);
-            if (!cuentasRespuesta.Any())
-            {
-                return Respuesta<IEnumerable<ReporteEstadoCuentaDetalladoDto>>.CrearRespuestaFallida(404, "No se encontraron cuentas para el cliente.");
-            }
-
-            var reporte = new List<ReporteEstadoCuentaDetalladoDto>();
-
-            foreach (var cuenta in cuentasRespuesta)
-            {
-                // Obtener los movimientos en el rango de fechas especificado
-                var movimientosRespuesta = await _movimientoRepositorio.ObtenerMovimientosPorCuentaYRangoFechasAsync(cuenta.NumeroCuenta, fechaInicio, fechaFin);
-
-                if (movimientosRespuesta.Any())
+                // Verificar si el cliente existe
+                var clienteRespuesta = await _clienteServicio.ObtenerClientePorIdentificacionAsync(identificacion);
+                if (!clienteRespuesta.EsExitoso)
                 {
-                    foreach (var movimiento in movimientosRespuesta)
-                    {
-                        var reporteItem = new ReporteEstadoCuentaDetalladoDto
-                        {
-                            Fecha = movimiento.Fecha,
-                            Cliente = cliente.Nombre,
-                            NumeroCuenta = cuenta.NumeroCuenta,
-                            TipoCuenta = cuenta.TipoCuenta,
-                            SaldoInicial = cuenta.SaldoInicial,
-                            Estado = cuenta.Estado,
-                            Movimiento = movimiento.Valor,
-                            SaldoDisponible = movimiento.Saldo
-                        };
+                    return Respuesta<IEnumerable<ReporteEstadoCuentaDetalladoDto>>.CrearRespuestaFallida(404, "Cliente no encontrado.");
+                }
 
-                        reporte.Add(reporteItem);
+                var cliente = clienteRespuesta.Datos;
+
+                // Obtener las cuentas asociadas al cliente
+                var cuentasRespuesta = await _cuentaRepositorio.ObtenerCuentasPorIdentificacionAsync(identificacion);
+                if (!cuentasRespuesta.Any())
+                {
+                    return Respuesta<IEnumerable<ReporteEstadoCuentaDetalladoDto>>.CrearRespuestaFallida(404, "No se encontraron cuentas para el cliente.");
+                }
+
+                var reporte = new List<ReporteEstadoCuentaDetalladoDto>();
+
+                foreach (var cuenta in cuentasRespuesta)
+                {
+                    // Obtener los movimientos en el rango de fechas especificado
+                    var movimientosRespuesta = await _movimientoRepositorio.ObtenerMovimientosPorCuentaYRangoFechasAsync(cuenta.NumeroCuenta, fechaInicio, fechaFin);
+
+                    if (movimientosRespuesta.Any())
+                    {
+                        foreach (var movimiento in movimientosRespuesta)
+                        {
+                            var reporteItem = new ReporteEstadoCuentaDetalladoDto
+                            {
+                                Fecha = movimiento.Fecha,
+                                Cliente = cliente.Nombre,
+                                NumeroCuenta = cuenta.NumeroCuenta,
+                                TipoCuenta = cuenta.TipoCuenta,
+                                SaldoInicial = cuenta.SaldoInicial,
+                                Estado = cuenta.Estado,
+                                Movimiento = movimiento.Valor,
+                                SaldoDisponible = movimiento.Saldo
+                            };
+
+                            reporte.Add(reporteItem);
+                        }
                     }
                 }
-            }
 
-            return Respuesta<IEnumerable<ReporteEstadoCuentaDetalladoDto>>.CrearRespuestaExitosa(reporte);
+                return Respuesta<IEnumerable<ReporteEstadoCuentaDetalladoDto>>.CrearRespuestaExitosa(reporte);
+            }
+            catch (Exception ex)
+            {
+                return Respuesta<IEnumerable<ReporteEstadoCuentaDetalladoDto>>.CrearRespuestaFallida(500, $"Error inesperado: {ex.Message}");
+            }
         }
     }
 }
