@@ -74,7 +74,7 @@ namespace Microservicio.CuentaMovimiento.Aplicacion.Servicios
             var clienteRespuesta = await _clienteServicio.ObtenerClientePorIdentificacionAsync(cuentaDto.Identificacion);
             if (!clienteRespuesta.EsExitoso)
             {
-                return Respuesta<CuentaDto>.CrearRespuestaFallida(404, "El cliente asociado no fue encontrado.");
+                return Respuesta<CuentaDto>.CrearRespuestaFallida(404, clienteRespuesta.Mensaje);
             }
 
             if (!clienteRespuesta.Datos.Estado)

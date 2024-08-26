@@ -151,5 +151,31 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Repositorios
             return await _dbContext.Cuenta
                 .CountAsync(cuenta => cuenta.Cliente.Persona.Identificacion == identificacion);
         }
+
+        /// <summary>
+        /// Obtiene todas las cuentas asociadas a un cliente por su identificación.
+        /// </summary>
+        /// <param name="identificacion">Identificación del cliente.</param>
+        /// <returns>Listado de cuentas asociadas a la identificación del cliente.</returns>
+        public async Task<IEnumerable<CuentaDto>> ObtenerCuentasPorIdentificacionAsync(string identificacion)
+        {
+            var cuentas = await _dbContext.Cuenta
+                .Include(c => c.Cliente)
+                .ThenInclude(cliente => cliente.Persona)
+                .Where(c => c.Cliente.Persona.Identificacion == identificacion)
+                .ToListAsync();
+
+            return cuentas.Select(c => new CuentaDto
+            {
+                IdCuenta = c.IdCuenta,
+                NumeroCuenta = c.NumeroCuenta,
+                TipoCuenta = c.TipoCuenta,
+                SaldoInicial = c.SaldoInicial,
+                Estado = c.Estado,
+                IdCliente = c.IdCliente,
+                NombreCliente = c.Cliente.Persona.Nombre,
+                Identificacion = c.Cliente.Persona.Identificacion
+            });
+        }
     }
 }

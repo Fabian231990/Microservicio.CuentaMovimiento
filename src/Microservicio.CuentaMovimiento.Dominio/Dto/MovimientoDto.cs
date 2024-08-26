@@ -34,5 +34,15 @@
         /// Identificador de la cuenta asociada al movimiento.
         /// </summary>
         public int IdCuenta { get; set; }
+
+        /// <summary>
+        /// Numero de la Cuenta.
+        /// </summary>
+        public string NumeroCuenta { get; set; }
+
+        /// <summary>
+        /// Tipo de la Cuenta.
+        /// </summary>
+        public string TipoCuenta { get; set; }
     }
 }

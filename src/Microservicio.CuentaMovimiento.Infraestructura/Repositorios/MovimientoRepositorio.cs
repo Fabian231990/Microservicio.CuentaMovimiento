@@ -8,21 +8,16 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Repositorios
     /// <summary>
     /// Repositorio para la gestion de movimientos en la base de datos.
     /// </summary>
-    public class MovimientoRepositorio : IMovimientoRepositorio
+    /// <remarks>
+    /// Constructor que inicializa el repositorio con el contexto de la base de datos.
+    /// </remarks>
+    /// <param name="dbContext">Contexto de la base de datos.</param>
+    public class MovimientoRepositorio(EjercicioTecnicoDBContext dbContext) : IMovimientoRepositorio
     {
         /// <summary>
         /// Contexto de base de datos.
         /// </summary>
-        private readonly EjercicioTecnicoDBContext _dbContext;
-
-        /// <summary>
-        /// Constructor que inicializa el repositorio con el contexto de la base de datos.
-        /// </summary>
-        /// <param name="dbContext">Contexto de la base de datos.</param>
-        public MovimientoRepositorio(EjercicioTecnicoDBContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        private readonly EjercicioTecnicoDBContext _dbContext = dbContext;
 
         /// <summary>
         /// Guarda un nuevo movimiento en la base de datos.
@@ -60,5 +55,30 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Repositorios
             await _dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Obtiene los movimientos de una cuenta en un rango de fechas.
+        /// </summary>
+        /// <param name="numeroCuenta">Número de la cuenta.</param>
+        /// <param name="fechaInicio">Fecha de inicio del rango.</param>
+        /// <param name="fechaFin">Fecha de fin del rango.</param>
+        /// <returns>Listado de movimientos dentro del rango de fechas.</returns>
+        public async Task<IEnumerable<MovimientoDto>> ObtenerMovimientosPorCuentaYRangoFechasAsync(string numeroCuenta, DateTime fechaInicio, DateTime fechaFin)
+        {
+            var movimientos = await _dbContext.Movimientos
+                .Include(m => m.Cuenta)
+                .Where(m => m.Cuenta.NumeroCuenta == numeroCuenta && m.Fecha >= fechaInicio && m.Fecha <= fechaFin)
+                .ToListAsync();
+
+            return movimientos.Select(m => new MovimientoDto
+            {
+                IdMovimiento = m.IdMovimiento,
+                Fecha = m.Fecha,
+                TipoMovimiento = m.TipoMovimiento,
+                Valor = m.Valor,
+                Saldo = m.Saldo,
+                NumeroCuenta = m.Cuenta.NumeroCuenta,
+                TipoCuenta = m.Cuenta.TipoCuenta
+            });
+        }
     }
 }

@@ -19,5 +19,14 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Repositorios
         /// </summary>
         /// <param name="numeroCuenta">El numero de cuenta cuyos movimientos seran eliminados.</param>
         Task EliminarMovimientosPorCuentaAsync(string numeroCuenta);
+
+        /// <summary>
+        /// Obtiene los movimientos de una cuenta en un rango de fechas.
+        /// </summary>
+        /// <param name="numeroCuenta">Número de la cuenta.</param>
+        /// <param name="fechaInicio">Fecha de inicio del rango.</param>
+        /// <param name="fechaFin">Fecha de fin del rango.</param>
+        /// <returns>Listado de movimientos dentro del rango de fechas.</returns>
+        Task<IEnumerable<MovimientoDto>> ObtenerMovimientosPorCuentaYRangoFechasAsync(string numeroCuenta, DateTime fechaInicio, DateTime fechaFin);
     }
 }

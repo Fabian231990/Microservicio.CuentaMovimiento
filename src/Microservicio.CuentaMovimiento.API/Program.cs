@@ -15,6 +15,7 @@ constructor.Services.AddScoped<ICuentaRepositorio, CuentaRepositorio>();
 constructor.Services.AddScoped<ICuentaServicio, CuentaServicio>();
 constructor.Services.AddScoped<IClienteServicio, ClienteServicio>();
 constructor.Services.AddScoped<IMovimientoRepositorio, MovimientoRepositorio>();
+constructor.Services.AddScoped<IMovimientoServicio, MovimientoServicio>();
 
 constructor.Services.AddDbContext<EjercicioTecnicoDBContext>(options =>
     options.UseSqlServer(constructor.Configuration.GetConnectionString("Conexion")));

@@ -36,5 +36,11 @@ namespace Microservicio.CuentaMovimiento.Dominio.Dto
         /// </summary>
         [JsonPropertyName("estado")]
         public bool Estado { get; set; }
+
+        /// <summary>
+        /// Nombre completo de la persona.
+        /// </summary>
+        [JsonPropertyName("nombre")]
+        public string Nombre { get; set; }
     }
 }

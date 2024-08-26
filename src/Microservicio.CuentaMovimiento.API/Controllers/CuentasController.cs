@@ -8,7 +8,7 @@ namespace Microservicio.CuentaMovimiento.API.Controllers
     /// <summary>
     /// Controlador de API para la entidad Cuenta.
     /// </summary>
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CuentasController : ControllerBase
     {
