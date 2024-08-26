@@ -1,4 +1,4 @@
-﻿using Microservicio.CuentaMovimiento.Dominio.Entidades;
+﻿using Microservicio.CuentaMovimiento.Dominio.Dto;
 using Microservicio.CuentaMovimiento.Infraestructura.Utilitarios;
 using System.Text.Json;
 
@@ -13,24 +13,26 @@ namespace Microservicio.CuentaMovimiento.Infraestructura.Servicios
     /// <param name="httpClient">Instancia de HttpClient inyectada.</param>
     public class ClienteServicio(HttpClient httpClient) : IClienteServicio
     {
-        private readonly HttpClient httpClient = httpClient;
+        /// <summary>
+        /// Instancia de HttpClient inyectada.
+        /// </summary>
+        private readonly HttpClient _httpClient = httpClient;
 
         /// <summary>
-        /// Llama al microservicio de Clientes para obtener información de un cliente por ID.
+        /// Llama al microservicio de Clientes para obtener informacion de un cliente por identificacion.
         /// </summary>
-        /// <param name="clienteId">ID del cliente a consultar.</param>
-        /// <returns>Contenido de la respuesta como string.</returns>
-        public async Task<Respuesta<ClienteEntidad>> ObtenerClientePorIdAsync(int clienteId)
+        /// <param name="identificacion">Identificacion del cliente a consultar.</param>
+        /// <returns>Respuesta que contiene la informacion del cliente como DTO.</returns>
+        public async Task<Respuesta<ClienteDto>> ObtenerClientePorIdentificacionAsync(string identificacion)
         {
-            string url = $"http://localhost:9100/Clientes/{clienteId}";
+            string url = $"http://localhost:9100/Clientes/{identificacion}";
 
-            HttpResponseMessage respuesta = await httpClient.GetAsync(url);
+            HttpResponseMessage respuesta = await _httpClient.GetAsync(url);
 
             if (respuesta.IsSuccessStatusCode)
             {
                 string contenidoJson = await respuesta.Content.ReadAsStringAsync();
-
-                return JsonSerializer.Deserialize<Respuesta<ClienteEntidad>>(contenidoJson);
+                return JsonSerializer.Deserialize<Respuesta<ClienteDto>>(contenidoJson);
             }
             else
             {

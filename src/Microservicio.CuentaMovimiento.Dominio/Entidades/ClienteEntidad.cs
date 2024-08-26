@@ -1,36 +1,38 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-namespace Microservicio.CuentaMovimiento.Dominio.Entidades
+﻿namespace Microservicio.CuentaMovimiento.Dominio.Entidades
 {
     /// <summary>
-    /// Clase Entidad de la tabla Cliente
+    /// Representa la entidad Cliente en el dominio, asociada a una Persona y con una o mas cuentas.
     /// </summary>
-    public class ClienteEntidad
+    public partial class ClienteEntidad
     {
         /// <summary>
-        /// Identificador unico del Cliente
+        /// Identificador unico del cliente.
         /// </summary>
-        [Key]
-        [JsonPropertyName("idCliente")]
         public int IdCliente { get; set; }
 
         /// <summary>
-        /// Clave foranea que referencia a Persona
+        /// Identificador unico de la persona asociada al cliente.
         /// </summary>
-        [JsonPropertyName("idPersona")]
         public int IdPersona { get; set; }
 
         /// <summary>
-        /// Contrasenia del Cliente
+        /// Contraseña del cliente para acceder a sus servicios.
         /// </summary>
-        [JsonPropertyName("contrasenia")]
         public string Contrasenia { get; set; }
 
         /// <summary>
-        /// Estado del Cliente
+        /// Estado del cliente. Indica si el cliente esta activo o inactivo.
         /// </summary>
-        [JsonPropertyName("estado")]
         public bool Estado { get; set; }
+
+        /// <summary>
+        /// Coleccion de cuentas asociadas al cliente.
+        /// </summary>
+        public virtual ICollection<CuentaEntidad> Cuenta { get; set; } = [];
+
+        /// <summary>
+        /// Entidad Persona asociada al cliente.
+        /// </summary>
+        public virtual PersonaEntidad Persona { get; set; }
     }
 }

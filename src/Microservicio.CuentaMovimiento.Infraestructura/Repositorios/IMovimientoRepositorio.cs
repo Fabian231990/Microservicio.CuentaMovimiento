@@ -1,23 +1,23 @@
-﻿using Microservicio.CuentaMovimiento.Dominio.Entidades;
+﻿using Microservicio.CuentaMovimiento.Dominio.Dto;
 
 namespace Microservicio.CuentaMovimiento.Infraestructura.Repositorios
 {
     /// <summary>
-    /// Interfaz Repositorio para la entidad Movimiento que interactúa con la base de datos.
+    /// Interfaz Repositorio para la entidad Movimiento que interactua con la base de datos.
     /// </summary>
     public interface IMovimientoRepositorio
     {
         /// <summary>
         /// Guarda un nuevo movimiento en la base de datos.
         /// </summary>
-        /// <param name="movimientoEntidad">La entidad Movimiento a guardar.</param>
-        /// <returns>El objeto MovimientoEntidad guardado.</returns>
-        Task<MovimientoEntidad> GuardarMovimientoAsync(MovimientoEntidad movimientoEntidad);
+        /// <param name="movimientoDto">El DTO Movimiento a guardar.</param>
+        /// <returns>El objeto MovimientoDto guardado.</returns>
+        Task<MovimientoDto> GuardarMovimientoAsync(MovimientoDto movimientoDto);
 
         /// <summary>
-        /// Elimina todos los movimientos asociados a una cuenta específica.
+        /// Elimina todos los movimientos asociados a una cuenta especifica, identificada por su numero de cuenta.
         /// </summary>
-        /// <param name="idCuenta">El ID de la cuenta cuyos movimientos serán eliminados.</param>
-        Task EliminarMovimientosPorCuentaAsync(int idCuenta);
+        /// <param name="numeroCuenta">El numero de cuenta cuyos movimientos seran eliminados.</param>
+        Task EliminarMovimientosPorCuentaAsync(string numeroCuenta);
     }
 }

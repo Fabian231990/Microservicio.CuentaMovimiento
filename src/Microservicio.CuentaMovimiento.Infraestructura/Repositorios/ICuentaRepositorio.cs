@@ -1,56 +1,51 @@
-﻿using Microservicio.CuentaMovimiento.Dominio.Entidades;
+﻿using Microservicio.CuentaMovimiento.Dominio.Dto;
 
 namespace Microservicio.CuentaMovimiento.Infraestructura.Repositorios
 {
     /// <summary>
-    /// Define las operaciones CRUD para la entidad Cuenta.
+    /// Interfaz del Repositorio de Cuenta.
     /// </summary>
     public interface ICuentaRepositorio
     {
         /// <summary>
-        /// Obtiene todas las cuentas.
+        /// Obtiene todas las cuentas registradas en la base de datos.
         /// </summary>
-        /// <returns>Listado de cuentas.</returns>
-        Task<IEnumerable<CuentaEntidad>> ObtenerTodasAsync();
+        /// <returns>Una lista con todas las cuentas en formato DTO.</returns>
+        Task<IEnumerable<CuentaDto>> ObtenerTodasAsync();
 
         /// <summary>
-        /// Obtiene una cuenta por su ID.
+        /// Obtiene una cuenta por su numero de cuenta.
         /// </summary>
-        /// <param name="numeroCuenta">Numero de la cuenta.</param>
-        /// <returns>Entidad Cuenta encontrada.</returns>
-        Task<CuentaEntidad> ObtenerPorNumeroCuentaAsync(string numeroCuenta);
+        /// <param name="numeroCuenta">Numero de la cuenta a buscar.</param>
+        /// <returns>La cuenta encontrada en formato DTO o null si no existe.</returns>
+        Task<CuentaDto> ObtenerPorNumeroCuentaAsync(string numeroCuenta);
 
         /// <summary>
-        /// Cuenta el número de cuentas asociadas a un cliente específico.
+        /// Crea una nueva cuenta en la base de datos.
         /// </summary>
-        /// <param name="idCliente">ID del cliente.</param>
-        /// <returns>Número de cuentas asociadas al cliente.</returns>
-        Task<int> ContarCuentasPorClienteAsync(int idCliente);
+        /// <param name="cuentaDto">DTO de la cuenta que se va a crear.</param>
+        /// <returns>La cuenta creada en formato DTO.</returns>
+        Task<CuentaDto> NuevoAsync(CuentaDto cuentaDto);
 
         /// <summary>
-        /// Obtiene una cuenta asociada a un cliente específico y un tipo de cuenta específico.
+        /// Modifica los datos de una cuenta existente en la base de datos.
         /// </summary>
-        /// <param name="idCliente">ID del cliente.</param>
-        /// <param name="tipoCuenta">Tipo de cuenta (Ahorro, Corriente, etc.).</param>
-        /// <returns>CuentaEntidad correspondiente o null si no se encuentra ninguna.</returns>
-        Task<CuentaEntidad> ObtenerPorClienteYTipoCuentaAsync(int idCliente, string tipoCuenta);
+        /// <param name="cuentaDto">DTO de la cuenta con los datos actualizados.</param>
+        /// <returns>La cuenta actualizada en formato DTO.</returns>
+        Task<CuentaDto> ModificarAsync(CuentaDto cuentaDto);
 
         /// <summary>
-        /// Crea una nueva cuenta.
+        /// Elimina una cuenta de la base de datos por su numero de cuenta.
         /// </summary>
-        /// <param name="cuentaEntidad">Entidad Cuenta a crear.</param>
-        Task NuevoAsync(CuentaEntidad cuentaEntidad);
+        /// <param name="numeroCuenta">Numero de la cuenta a eliminar.</param>
+        /// <returns>Booleano que indica si la eliminacion fue exitosa.</returns>
+        Task<bool> EliminarAsync(string numeroCuenta);
 
         /// <summary>
-        /// Modifica una cuenta existente.
+        /// Cuenta cuantas cuentas tiene un cliente basado en la identificacion de la persona.
         /// </summary>
-        /// <param name="cuentaEntidad">Entidad Cuenta con los datos actualizados.</param>
-        Task ModificarAsync(CuentaEntidad cuentaEntidad);
-
-        /// <summary>
-        /// Elimina una cuenta por su ID.
-        /// </summary>
-        /// <param name="idCuenta">Identificador de la cuenta a eliminar.</param>
-        Task EliminarAsync(int idCuenta);
+        /// <param name="identificacion">La identificacion de la persona.</param>
+        /// <returns>El numero de cuentas asociadas a la persona.</returns>
+        Task<int> ContarCuentasPorIdentificacionAsync(string identificacion);
     }
 }

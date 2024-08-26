@@ -1,41 +1,43 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Microservicio.CuentaMovimiento.Dominio.Entidades
+﻿namespace Microservicio.CuentaMovimiento.Dominio.Entidades
 {
     /// <summary>
-    /// Representa un movimiento financiero asociado a una cuenta.
+    /// Representa la entidad Movimiento en el dominio, asociada a una cuenta especifica.
     /// </summary>
-    public class MovimientoEntidad
+    public partial class MovimientoEntidad
     {
         /// <summary>
-        /// Identificador único del movimiento.
+        /// Identificador unico del movimiento.
         /// </summary>
-        [Key]
         public int IdMovimiento { get; set; }
 
         /// <summary>
-        /// Fecha y hora en que se realizó el movimiento.
+        /// Fecha y hora en que se realizo el movimiento.
         /// </summary>
         public DateTime Fecha { get; set; }
 
         /// <summary>
-        /// Tipo de movimiento, por ejemplo: "Depósito", "Retiro".
+        /// Tipo de movimiento, como "Deposito" o "Retiro".
         /// </summary>
         public string TipoMovimiento { get; set; }
 
         /// <summary>
-        /// Valor monetario del movimiento.
+        /// Valor monetario del movimiento realizado.
         /// </summary>
         public decimal Valor { get; set; }
 
         /// <summary>
-        /// Saldo de la cuenta después de realizar el movimiento.
+        /// Saldo restante en la cuenta despues de realizar el movimiento.
         /// </summary>
         public decimal Saldo { get; set; }
 
         /// <summary>
-        /// Identificador de la cuenta asociada al movimiento.
+        /// Identificador unico de la cuenta asociada a este movimiento.
         /// </summary>
         public int IdCuenta { get; set; }
+
+        /// <summary>
+        /// Entidad Cuenta asociada al movimiento.
+        /// </summary>
+        public virtual CuentaEntidad Cuenta { get; set; }
     }
 }

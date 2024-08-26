@@ -1,9 +1,9 @@
-﻿namespace Microservicio.CuentaMovimiento.Dominio.Entidades
+﻿namespace Microservicio.CuentaMovimiento.Dominio.Dto
 {
     /// <summary>
-    /// Representa la entidad Cuenta en el dominio, asociada a un cliente y con una coleccion de movimientos.
+    /// Data Transfer Object (DTO) para la entidad Cuenta.
     /// </summary>
-    public partial class CuentaEntidad
+    public class CuentaDto
     {
         /// <summary>
         /// Identificador unico de la cuenta.
@@ -36,13 +36,13 @@
         public int IdCliente { get; set; }
 
         /// <summary>
-        /// Entidad Cliente asociada a la cuenta.
+        /// Nombre del cliente asociado a la cuenta.
         /// </summary>
-        public virtual ClienteEntidad Cliente { get; set; }
+        public string NombreCliente { get; set; }
 
         /// <summary>
-        /// Coleccion de movimientos asociados a esta cuenta.
+        /// Identificacion del cliente asociado a la cuenta.
         /// </summary>
-        public virtual ICollection<MovimientoEntidad> Movimientos { get; set; } = [];
+        public string Identificacion { get; set; }
     }
 }
